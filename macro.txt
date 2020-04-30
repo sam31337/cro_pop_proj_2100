@@ -1,0 +1,35 @@
+Sub Macro_CROProjection() 'projection code
+'clearing contents
+Sheets("Results").Select
+Range("A44").Select
+Range(Selection, Selection.End(xlToRight)).Select
+Range(Selection, Selection.End(xlDown)).Select
+Selection.ClearContents
+'year looping
+For iyear = 1 To 18 'iyear - iteration year
+Sheets("Projection").Select
+Range("C2").Value = iyear
+'scenario looping
+For Scenario = 1 To 7
+Sheets("Projection").Select
+Range("A4").Value = Scenario
+'migration looping
+For mig = 1 To 2
+Sheets("Projection").Select
+Range("N2").Value = mig
+'copy results from Projection sheet (SUB RESULTS section)
+Sheets("Projection").Select
+Range("X6").Select
+Range(Selection, Selection.End(xlToRight)).Select
+Range(Selection, Selection.End(xlDown)).Select
+Selection.Copy
+'paste results from proj sheet (SUB RESULTS section)
+Sheets("Results").Select
+ROffset = Range("K2").Value
+    Range("A1").Offset(ROffset, 0).Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+Next mig
+Next Scenario
+Next iyear
+End Sub
